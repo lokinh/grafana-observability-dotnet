@@ -9,6 +9,8 @@ services:
     security_opt:
       - no-new-privileges:true
     read_only: true
+    tmpfs:
+      - /tmp
     volumes:
       - loki-data:/loki/
       - ./.config/loki-config.yml:/etc/loki/local-config.yaml:ro
@@ -21,8 +23,11 @@ services:
     security_opt:
       - no-new-privileges:true
     read_only: true
+    tmpfs:
+      - /tmp
     volumes:
-      - ./.config/tempo.yaml:/etc/tempo.yaml
+      - ./.config/tempo.yaml:/etc/tempo.yaml:ro
+      - tempo-data:/var/tempo
   #    ports:
   #      - "14268:14268" # jaeger ui
   #      - "3200:3200"   # tempo      
@@ -75,12 +80,18 @@ services:
     security_opt:
       - no-new-privileges:true
     read_only: true
+    tmpfs:
+      - /tmp
     volumes:
-      - ./.config/otel-collector-config.yml:/etc/otel-collector-config.yml
+      - ./.config/otel-collector-config.yml:/etc/otel-collector-config.yml:ro
     depends_on:
-      - prometheus
-      - loki
-      - tempo
+      loki:
+        condition: service_started
+      tempo:
+        condition: service_started
+      prometheus:
+        condition: service_started
+    restart: unless-stopped
     ports:
       - "4317:4317" # OTLP gRPC receiver
       - "4318:4318" # OTLP http receiver
@@ -99,3 +110,4 @@ volumes:
   loki-data:
   prometheus-data:
   grafana-data:
+  tempo-data:
