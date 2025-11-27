@@ -1,0 +1,14 @@
+apiVersion: 1
+
+providers:
+  - name: 'Phase 1 Dashboards'
+    orgId: 1
+    folder: 'Tracing'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false
+
