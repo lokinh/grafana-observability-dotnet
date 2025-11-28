@@ -43,8 +43,8 @@ exporters:
     tls:
       insecure: true
 
-  otlp/external:
-    endpoint: 192.168.1.85:4317
+  otlphttp/external:
+    endpoint: http://192.168.1.85:4318
 
   otlphttp/loki:
     endpoint: http://loki:3100/otlp
@@ -59,14 +59,14 @@ service:
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ otlp/tempo, spanmetrics, debug , otlp/external]
+      exporters: [ otlp/tempo, spanmetrics, debug , otlphttp/external]
     
     metrics:
       receivers: [ otlp, spanmetrics ]
       processors: [ batch ]
-      exporters: [ prometheus, otlp/external]
+      exporters: [ prometheus, otlphttp/external]
     
     logs:
       receivers: [ otlp ]
       processors: [ batch, resource ]
-      exporters: [ otlphttp/loki, debug, otlp/external ]
+      exporters: [ otlphttp/loki, debug, otlphttp/external ]
