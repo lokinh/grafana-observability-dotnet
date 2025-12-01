@@ -372,9 +372,18 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
+          "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"ssidx-exchange\",span_name=~\"POST.*Order.*\"}[1m]))",
+          "legendFormat": "API Create Order",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"ssidx-submission\",span_name=~\"orders.*publish\"}[1m]))",
           "legendFormat": "Orders to Matcher",
-          "refId": "A"
+          "refId": "B"
         },
         {
           "datasource": {
@@ -383,7 +392,7 @@
           },
           "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"ssidx-matcher\",span_name=~\"orders.*process\"}[1m]))",
           "legendFormat": "Orders Matched",
-          "refId": "B"
+          "refId": "C"
         },
         {
           "datasource": {
@@ -392,7 +401,7 @@
           },
           "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"ssidx-matcher\",span_name=~\"trades.*publish\"}[1m]))",
           "legendFormat": "Trades Generated",
-          "refId": "C"
+          "refId": "D"
         },
         {
           "datasource": {
@@ -401,7 +410,7 @@
           },
           "expr": "sum(rate(traces_spanmetrics_calls_total{service=\"ssidx-settlement\",span_name=~\"trades.*process\"}[1m]))",
           "legendFormat": "Trades Settled",
-          "refId": "D"
+          "refId": "E"
         }
       ],
       "title": "📊 Trading Pipeline Throughput",
